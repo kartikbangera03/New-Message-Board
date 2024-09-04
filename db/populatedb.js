@@ -12,12 +12,19 @@ CREATE TABLE IF NOT EXISTS messages (
 INSERT INTO messages (text , username) VALUES('Hello World' , 'Charles');
 
 INSERT INTO messages (text , username) VALUES('Hi There' , 'Amando');
+
+DELETE FROM messages
+WHERE id not in (
+              SELECT min(id)
+              FROM messages
+              GROUP BY text, username
+);
 `;
 
 async function main(){
     console.log("seeding.....");
     const client =  new Client({
-        connectionString : process.env.DATABASE_CONNECTION_STRING
+        connectionString : process.env.DATABASE_URL
     });
     await client.connect();
     await client.query(SQL);
