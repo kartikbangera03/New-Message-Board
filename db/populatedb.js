@@ -17,8 +17,8 @@ DELETE FROM messages
 WHERE id not in (
               SELECT min(id)
               FROM messages
-              GROUP BY text, username
-);
+              GROUP BY username , text 
+              );
 `;
 
 async function main(){
